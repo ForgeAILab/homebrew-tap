@@ -18,20 +18,20 @@ class Forge < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/ForgeAILab/forge/releases/download/v#{version}/forge-aarch64-macos.tar.gz"
-      sha256 "3b7696d0f605f1b637ae5234ce3cf0a2ced280fa3e7a9d9b493f71f534eb17d1"
+      sha256 "7f3132b825d733440e3d091c08024afe2c85f4a7093eb8cf46f3e41916b52cb0"
     else
       url "https://github.com/ForgeAILab/forge/releases/download/v#{version}/forge-x86_64-macos.tar.gz"
-      sha256 "def6198f6ae1b414bab3fb261125dc6c348d8866e60855a718d03187544b0b50"
+      sha256 "76e4929ff59e0da6a3b7fdf79082f5d82551362821ff544b0b162dd90237e906"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/ForgeAILab/forge/releases/download/v#{version}/forge-aarch64-linux.tar.gz"
-      sha256 "f853f6317d94c6143a6078ecb7000fd6a4e74cb19a05bf44e542b5a110729b7d"
+      sha256 "35c95b2c9f2848c6aac355ce7d48e0a283033471440f69c67cbae493ae35d6d3"
     else
       url "https://github.com/ForgeAILab/forge/releases/download/v#{version}/forge-x86_64-linux.tar.gz"
-      sha256 "426628f6a59650591673a5a0fce7d6d47ee10d7b866508456f03e878143a1e57"
+      sha256 "3a366803f64e4e72dde6cd4c69ef508e00d2033b5859861632f7425e4e520f43"
     end
   end
 
@@ -51,7 +51,7 @@ class Forge < Formula
   end
 
   test do
-    assert_match "forge", shell_output("#{bin}/forge --version")
-    assert_match "forge-ctl", shell_output("#{bin}/forge-ctl --help")
+    assert_match "Usage: forge", shell_output("#{bin}/forge --help")
+    assert_match "Forge CLI client", shell_output("#{bin}/forge-ctl --help")
   end
 end
