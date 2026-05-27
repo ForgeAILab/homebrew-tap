@@ -29,15 +29,22 @@ server resolves them automatically; no env var setup needed.
 
 ## Updating the formula after a Forge release
 
-1. Bump `version` in `Formula/forge.rb` to the new tag (no leading `v`).
-2. From this repo root, run:
+Forge release automation dispatches the `Update Forge formula` workflow when a
+stable tag is published. To run the same update manually:
+
+1. From this repo root, run:
    ```bash
    ./scripts/update-checksums.sh <version>
    ```
-   The script pulls `SHA256SUMS` from the corresponding GitHub Release and
-   rewrites the four `sha256 "REPLACE_WITH_..."` lines in the formula.
-3. `brew audit --strict --online forgeailab/tap/forge` locally.
-4. Commit, push, and the new version is live for users on `brew update`.
+   The script pulls `SHA256SUMS` from the corresponding GitHub Release, updates
+   the formula release URLs, and rewrites the four platform checksums.
+2. `brew audit --strict --online forgeailab/tap/forge` locally after tapping
+   this checkout.
+3. Commit, push, and the new version is live for users on `brew update`.
+
+The automated cross-repository dispatch expects the Forge source repository to
+have a `HOMEBREW_TAP_TOKEN` secret that can create a `repository_dispatch` event
+on `ForgeAILab/homebrew-tap`.
 
 ## Why a tap, not `homebrew-core`?
 

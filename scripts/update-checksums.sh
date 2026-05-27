@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Pull SHA256SUMS from a Forge GitHub release and rewrite the four `sha256` lines
-# in Formula/forge.rb. Bump `version` in the formula yourself first.
+# Pull SHA256SUMS from a Forge GitHub release, update the formula release URLs,
+# and rewrite the four `sha256` lines in Formula/forge.rb.
 #
 # Usage:
-#   ./scripts/update-checksums.sh 0.1.0
+#   ./scripts/update-checksums.sh 0.1.4
 #
 # Requires: curl, awk, sed.
 
@@ -15,9 +15,15 @@ if [[ $# -ne 1 ]]; then
 fi
 
 VERSION="$1"
+VERSION="${VERSION#v}"
 REPO="ForgeAILab/forge"
 URL="https://github.com/${REPO}/releases/download/v${VERSION}/SHA256SUMS"
 FORMULA="$(dirname "$0")/../Formula/forge.rb"
+
+if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+  echo "error: invalid Forge version '${VERSION}'" >&2
+  exit 1
+fi
 
 echo "→ fetching ${URL}"
 SUMS="$(curl -fsSL "${URL}")"
@@ -50,13 +56,22 @@ echo "  x86_64-macos:  ${SHA_MAC_X86}"
 echo "  aarch64-linux: ${SHA_LINUX_ARM}"
 echo "  x86_64-linux:  ${SHA_LINUX_X86}"
 
+echo "→ setting formula URLs to v${VERSION}"
+
 # Update each sha256 line by matching on the URL filename in the preceding url line.
 # Uses a state-machine awk so we never overwrite the wrong sha.
 tmp="$(mktemp)"
-awk -v mac_arm="${SHA_MAC_ARM}" \
+awk -v version="${VERSION}" \
+    -v mac_arm="${SHA_MAC_ARM}" \
     -v mac_x86="${SHA_MAC_X86}" \
     -v lin_arm="${SHA_LINUX_ARM}" \
     -v lin_x86="${SHA_LINUX_X86}" '
+  /^  version "/ {
+    next
+  }
+  {
+    gsub(/releases\/download\/v[^\/]+\//, "releases/download/v" version "/")
+  }
   /url ".*forge-aarch64-macos\.tar\.gz"/ { last="mac_arm" }
   /url ".*forge-x86_64-macos\.tar\.gz"/  { last="mac_x86" }
   /url ".*forge-aarch64-linux\.tar\.gz"/ { last="lin_arm" }
