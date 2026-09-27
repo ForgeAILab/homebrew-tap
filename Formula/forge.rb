@@ -15,21 +15,21 @@ class Forge < Formula
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.4/forge-aarch64-macos.tar.gz"
-      sha256 "045ff1b35a8bdcb3df00dca8e30d3036fef3045bb58949849cb4e44b7fd760a3"
+      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.5/forge-aarch64-macos.tar.gz"
+      sha256 "1f9ae1b364837087ba866a2d4e84441e277b6d6238bf77fd1007994ba28b51a8"
     else
-      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.4/forge-x86_64-macos.tar.gz"
-      sha256 "7fdab33304fab9225f5bbcf245c76fea7022690523f1a095e281cb2b42175b12"
+      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.5/forge-x86_64-macos.tar.gz"
+      sha256 "17ea39e51839c5259579d72d12fe43b8c41f1823b60e8448cae8e67d50decd53"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.4/forge-aarch64-linux.tar.gz"
-      sha256 "fc3df8f644811475d98f1df5cd44cc51b8c2fe1606e238d02df52fda929e5a16"
+      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.5/forge-aarch64-linux.tar.gz"
+      sha256 "12d3517077617cc5ce0cd6d24288169c73d6fa53266d843568d730a25034681c"
     else
-      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.4/forge-x86_64-linux.tar.gz"
-      sha256 "d74598e3c68023eaa8b4556a4b03dfb9f4562aa38392bda39817f822a93dfc20"
+      url "https://github.com/ForgeAILab/forge/releases/download/v0.13.5/forge-x86_64-linux.tar.gz"
+      sha256 "71811614a9b25b2f3cb569958035f7925b24218bce18dcecd5a71cf5b3948555"
     end
   end
 
